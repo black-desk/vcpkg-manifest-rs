@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 Chen Linxuan <me@black-desk.cn>
+# SPDX-FileCopyrightText: 2026 Chen Linxuan <me@black-desk.cn>
 #
 # SPDX-License-Identifier: MIT
 
@@ -8,21 +8,14 @@ on:
   push:
     tags:
       - v*-*
-    branches:
-      - master
 
 jobs:
-  # TODO: Uncomment and configure this job if this is a project using goreleaser
-  # goreleaser:
-  #   permissions:
-  #     contents: write
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: black-desk/workflows/goreleaser@master
-
-  # TODO: Remove this job
-  place-holder:
+  publish:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "Hello world!"
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Publish vcpkg-manifest to crates.io
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish -p vcpkg-manifest

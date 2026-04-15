@@ -1,12 +1,10 @@
 <!--
-SPDX-FileCopyrightText: 2025 Chen Linxuan <me@black-desk.cn>
+SPDX-FileCopyrightText: 2026 Chen Linxuan <me@black-desk.cn>
 
 SPDX-License-Identifier: MIT
 -->
 
-<!-- TODO: Update project name -->
-
-# Template
+# vcpkg-manifest-rs
 
 [![checks][badge-shields-io-checks]][actions]
 [![commit activity][badge-shields-io-commit-activity]][commits]
@@ -15,52 +13,32 @@ SPDX-License-Identifier: MIT
 ![commits since release][badge-shields-io-commits-since-release]
 [![codecov][badge-shields-io-codecov]][codecov]
 
-<!-- TODO: Update project links -->
-
 [badge-shields-io-checks]:
-  https://img.shields.io/github/check-runs/black-desk/template/master
+  https://img.shields.io/github/check-runs/black-desk/vcpkg-manifest-rs/master
 
-<!-- TODO: Update project links -->
-
-[actions]: https://github.com/black-desk/template/actions
-
-<!-- TODO: Update project links -->
+[actions]: https://github.com/black-desk/vcpkg-manifest-rs/actions
 
 [badge-shields-io-commit-activity]:
-  https://img.shields.io/github/commit-activity/w/black-desk/template/master
+  https://img.shields.io/github/commit-activity/w/black-desk/vcpkg-manifest-rs/master
 
-<!-- TODO: Update project links -->
-
-[commits]: https://github.com/black-desk/template/commits/master
-
-<!-- TODO: Update project links -->
+[commits]: https://github.com/black-desk/vcpkg-manifest-rs/commits/master
 
 [badge-shields-io-contributors]:
-  https://img.shields.io/github/contributors/black-desk/template
+  https://img.shields.io/github/contributors/black-desk/vcpkg-manifest-rs
 
-<!-- TODO: Update project links -->
-
-[contributors]: https://github.com/black-desk/template/graphs/contributors
-
-<!-- TODO: Update project links -->
+[contributors]: https://github.com/black-desk/vcpkg-manifest-rs/graphs/contributors
 
 [badge-shields-io-release-date]:
-  https://img.shields.io/github/release-date/black-desk/template
+  https://img.shields.io/github/release-date/black-desk/vcpkg-manifest-rs
 
-<!-- TODO: Update project links -->
-
-[releases]: https://github.com/black-desk/template/releases
-
-<!-- TODO: Update project links -->
+[releases]: https://github.com/black-desk/vcpkg-manifest-rs/releases
 
 [badge-shields-io-commits-since-release]:
-  https://img.shields.io/github/commits-since/black-desk/template/latest
-
-<!-- TODO: Update project links -->
+  https://img.shields.io/github/commits-since/black-desk/vcpkg-manifest-rs/latest
 
 [badge-shields-io-codecov]:
-  https://codecov.io/github/black-desk/template/graph/badge.svg?token=6TSVGQ4L9X
-[codecov]: https://codecov.io/github/black-desk/template
+  https://codecov.io/github/black-desk/vcpkg-manifest-rs/graph/badge.svg?token=6TSVGQ4L9X
+[codecov]: https://codecov.io/github/black-desk/vcpkg-manifest-rs
 
 en | [zh_CN](README.zh_CN.md)
 
@@ -69,31 +47,45 @@ en | [zh_CN](README.zh_CN.md)
 > This English README is translated from the Chinese version using LLM and may
 > contain errors.
 
-<!-- TODO: Add project description -->
+A `build.rs` library for finding C/C++ dependencies in Rust projects via
+[vcpkg](https://vcpkg.io/) ([install guide](https://learn.microsoft.com/vcpkg/get_started/get-started)).
 
-My personal project template
+Inspired by [vcpkg-rs](https://github.com/mcgoo/vcpkg-rs) and
+[vcpkg-rs-mf](https://github.com/crosscode-nl/vcpkg-rs-mf). Both projects are
+poorly maintained and have significant issues in practice, which motivated the
+creation of this project.
 
-## Usage
+When a `vcpkg_installed/` directory exists in the project root (created by
+`vcpkg install`), it finds dependencies from vcpkg; otherwise, it falls back
+to system-wide search. Both cases delegate to [cmake-package-rs] via CMake's
+`find_package()`. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed design
+documentation.
 
-<!-- TODO: Add project usage instructions -->
+[cmake-package-rs]: https://github.com/danvratil/cmake-package-rs
 
-1. Use gh to create a repository from the template:
+## Example
 
-   ```bash
-   gh repo create --public --template black-desk/template
-   ```
+See [`tests/fixtures/hello-fmt/`](tests/fixtures/hello-fmt/) for a complete
+example that uses `vcpkg_manifest::find_package("fmt")` to link the fmt
+library provided by vcpkg.
 
-2. Edit project files, fill in content, and remove all `TODO` comments.
+## Known Issues
 
-3. Run the check script to ensure all `TODO` comments have been removed:
+- **On Windows, dynamic linking is always used.** See [cmake-package-rs#123](https://codeberg.org/danvratil/cmake-package-rs/pulls/123) for details.
 
-   ```bash
-   ./scripts/ls-todo.sh
-   ```
+## Differences from Reference Projects
+
+| Feature | [vcpkg-rs] | [vcpkg-rs-mf] | This project |
+| --- | --- | --- | --- |
+| Find libraries from vcpkg | ✓ | ✓ | ✓ |
+| vcpkg manifest mode install paths | ✗ | ✓ | ✓ |
+
+[vcpkg-rs]: https://github.com/mcgoo/vcpkg-rs
+[vcpkg-rs-mf]: https://github.com/crosscode-nl/vcpkg-rs-mf
 
 ## License
 
-Unless otherwise specified, the code of this project are open source under the
+Unless otherwise specified, the code of this project is open source under the
 GNU General Public License version 3 or any later version, while documentation,
 configuration files, and scripts used in the development and maintenance process
 are open source under the MIT License.

@@ -1,12 +1,10 @@
 <!--
-SPDX-FileCopyrightText: 2025 Chen Linxuan <me@black-desk.cn>
+SPDX-FileCopyrightText: 2026 Chen Linxuan <me@black-desk.cn>
 
 SPDX-License-Identifier: MIT
 -->
 
-<!-- TODO: 更新项目名称 -->
-
-# 模版
+# vcpkg-manifest-rs
 
 [![checks][badge-shields-io-checks]][actions]
 [![commit activity][badge-shields-io-commit-activity]][commits]
@@ -15,74 +13,67 @@ SPDX-License-Identifier: MIT
 ![commits since release][badge-shields-io-commits-since-release]
 [![codecov][badge-shields-io-codecov]][codecov]
 
-<!-- TODO: 更新项目链接 -->
-
 [badge-shields-io-checks]:
-  https://img.shields.io/github/check-runs/black-desk/template/master
+  https://img.shields.io/github/check-runs/black-desk/vcpkg-manifest-rs/master
 
-<!-- TODO: 更新项目链接 -->
-
-[actions]: https://github.com/black-desk/template/actions
-
-<!-- TODO: 更新项目链接 -->
+[actions]: https://github.com/black-desk/vcpkg-manifest-rs/actions
 
 [badge-shields-io-commit-activity]:
-  https://img.shields.io/github/commit-activity/w/black-desk/template/master
+  https://img.shields.io/github/commit-activity/w/black-desk/vcpkg-manifest-rs/master
 
-<!-- TODO: 更新项目链接 -->
-
-[commits]: https://github.com/black-desk/template/commits/master
-
-<!-- TODO: 更新项目链接 -->
+[commits]: https://github.com/black-desk/vcpkg-manifest-rs/commits/master
 
 [badge-shields-io-contributors]:
-  https://img.shields.io/github/contributors/black-desk/template
+  https://img.shields.io/github/contributors/black-desk/vcpkg-manifest-rs
 
-<!-- TODO: 更新项目链接 -->
-
-[contributors]: https://github.com/black-desk/template/graphs/contributors
-
-<!-- TODO: 更新项目链接 -->
+[contributors]: https://github.com/black-desk/vcpkg-manifest-rs/graphs/contributors
 
 [badge-shields-io-release-date]:
-  https://img.shields.io/github/release-date/black-desk/template
+  https://img.shields.io/github/release-date/black-desk/vcpkg-manifest-rs
 
-<!-- TODO: 更新项目链接 -->
-
-[releases]: https://github.com/black-desk/template/releases
-
-<!-- TODO: 更新项目链接 -->
+[releases]: https://github.com/black-desk/vcpkg-manifest-rs/releases
 
 [badge-shields-io-commits-since-release]:
-  https://img.shields.io/github/commits-since/black-desk/template/latest
-
-<!-- TODO: 更新项目链接 -->
+  https://img.shields.io/github/commits-since/black-desk/vcpkg-manifest-rs/latest
 
 [badge-shields-io-codecov]:
-  https://codecov.io/github/black-desk/template/graph/badge.svg?token=6TSVGQ4L9X
-[codecov]: https://codecov.io/github/black-desk/template
+  https://codecov.io/github/black-desk/vcpkg-manifest-rs/graph/badge.svg?token=6TSVGQ4L9X
+[codecov]: https://codecov.io/github/black-desk/vcpkg-manifest-rs
 
 [en](README.md) | zh_CN
 
-<!-- TODO: 添加项目简介 -->
+一个用于在 Rust 项目中通过 [vcpkg](https://vcpkg.io/)（[安装教程](https://learn.microsoft.com/vcpkg/get_started/get-started)） 查找 C/C++ 依赖的
+`build.rs` 库。
 
-## 使用
+参考了 [vcpkg-rs](https://github.com/mcgoo/vcpkg-rs) 和
+[vcpkg-rs-mf](https://github.com/crosscode-nl/vcpkg-rs-mf) 的实现。这两个项目
+长期缺乏维护，使用中存在较多问题，因此发起了本项目。
 
-<!-- TODO: 添加项目使用说明 -->
+当项目根目录存在 `vcpkg_installed/` 目录时（由 `vcpkg install` 创建），
+从 vcpkg 安装中查找依赖；否则 fallback 到系统范围内查找。底层均委托
+[cmake-package-rs] 通过 CMake `find_package()` 完成。详细设计文档见
+[CONTRIBUTING.zh_CN.md](CONTRIBUTING.zh_CN.md)。
 
-1. 使用gh，从模版创建仓库：
+[cmake-package-rs]: https://github.com/danvratil/cmake-package-rs
 
-   ```bash
-   gh repo create --public --template black-desk/template
-   ```
+## 示例
 
-2. 编辑项目文件，填充内容后移除所有的`TODO`。
+参见 [`tests/fixtures/hello-fmt/`](tests/fixtures/hello-fmt/)，其中包含一个完整示例，
+演示了如何通过 `vcpkg_manifest::find_package("fmt")` 链接 vcpkg 提供的 libfmt。
 
-3. 运行检查脚本，确定所有`TODO`均已被移除：
+## 已知问题
 
-   ```bash
-   ./scripts/ls-todo.sh
-   ```
+- **在 Windows 上总会使用动态链接。** 详情参见 [cmake-package-rs#123](https://codeberg.org/danvratil/cmake-package-rs/pulls/123)。
+
+## 与参考项目的区别
+
+| 特性 | [vcpkg-rs] | [vcpkg-rs-mf] | 本项目 |
+| --- | --- | --- | --- |
+| 从 vcpkg 查找库 | ✓ | ✓ | ✓ |
+| vcpkg manifest mode 安装路径 | ✗ | ✓ | ✓ |
+
+[vcpkg-rs]: https://github.com/mcgoo/vcpkg-rs
+[vcpkg-rs-mf]: https://github.com/crosscode-nl/vcpkg-rs-mf
 
 ## 许可证
 

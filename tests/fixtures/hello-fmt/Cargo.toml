@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2026 Chen Linxuan <me@black-desk.cn>
+#
+# SPDX-License-Identifier: MIT
+
+[package]
+name = "hello-fmt"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[build-dependencies]
+vcpkg-manifest = { path = "../../.." }
+cc = "1"
