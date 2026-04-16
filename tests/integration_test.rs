@@ -18,8 +18,8 @@ fn fixture_dir() -> PathBuf {
 
 /// Check whether vcpkg is available (VCPKG_ROOT set or vcpkg on PATH).
 fn vcpkg_available() -> bool {
-    if std::env::var("VCPKG_ROOT").is_ok() {
-        return true;
+    if ! std::env::var("VCPKG_ROOT").is_ok() {
+        return false;
     }
     Command::new("vcpkg")
         .arg("--version")
