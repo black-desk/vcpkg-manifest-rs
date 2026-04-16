@@ -7,15 +7,11 @@ name: Continuous Deployment
 on:
   push:
     tags:
-      - v*-*
+      - v*
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - name: Publish vcpkg-manifest to crates.io
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish -p vcpkg-manifest
+      - uses: black-desk/workflows/crate@master
