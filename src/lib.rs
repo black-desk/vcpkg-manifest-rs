@@ -178,4 +178,3 @@ fn detect_vcpkg_root() -> Option<PathBuf> {
     }
     find_vcpkg_root()
 }
-
