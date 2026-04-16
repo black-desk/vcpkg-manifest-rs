@@ -26,6 +26,8 @@ jobs:
       id-token: write
     steps:
       - uses: black-desk/workflows/rust@master
+        env:
+          VCPKG_ROOT: /usr/local/share/vcpkg
 
   pass:
     name: pass
